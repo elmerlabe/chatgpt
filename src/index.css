@@ -1,0 +1,50 @@
+* {
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: #262626;
+    margin: 0;
+}
+
+button {
+    border: none;
+    padding: 5px 20px;
+    border-radius: 10px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+input {
+    border: 1px solid #b7b7b7
+}
+
+.text-center {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+hr {
+    border: 1px dashed #c0c0c0;
+}
+
+.mb-10 {
+    margin-bottom: 2rem;
+}
+
+.mx-auto {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.text-white {
+    color: #fff
+}
