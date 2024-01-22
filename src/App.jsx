@@ -2,18 +2,28 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import gptLogo from './assets/icons/gpt_icon.svg';
 import userLogo from './assets/icons/user_icon.svg';
+import Sidebar from './Components/Sidebar';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const gptInstruction = 'You are a helpful assistant.';
 
 const initialMessage = [
   {
     role: 'system',
-    content: 'You are a general assistant.',
+    content: gptInstruction,
   },
 ];
 
+const initialGptParams = {
+  system: gptInstruction,
+  model: 'gpt-4',
+  temperature: 0.5,
+  maxToken: 256,
+};
+
 function App() {
   const [messages, setMessages] = useState(initialMessage);
+  const [gptParams, setGptParams] = useState(initialGptParams);
   const [userMessage, setUserMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
 
@@ -45,10 +55,10 @@ function App() {
 
   const sendToChatGPT = async () => {
     const data = {
-      model: 'gpt-3.5-turbo-1106',
+      model: gptParams.model,
       messages: messages,
-      temperature: 0.2,
-      maxToken: 256,
+      temperature: Number(gptParams.temperature),
+      maxToken: Number(gptParams.maxToken),
     };
 
     try {
@@ -70,6 +80,15 @@ function App() {
     }
   };
 
+  const displaySidebar = () => {
+    document.getElementById('sidebar').style.display = 'block';
+  };
+
+  const onChangeParams = (data) => {
+    setGptParams(data);
+    messages[0].content = data.system;
+  };
+
   useEffect(() => {
     if (isSending) {
       sendToChatGPT();
@@ -78,6 +97,19 @@ function App() {
 
   return (
     <>
+      <Sidebar initialParams={gptParams} onChangeParams={onChangeParams} />
+      <p
+        onClick={displaySidebar}
+        className="cursor-pointer"
+        style={{
+          fontSize: '2rem',
+          marginLeft: '2rem',
+          position: 'fixed',
+          top: '0',
+        }}
+      >
+        ☰
+      </p>
       <div className="chat-container">
         <div className={`${messages.length === 1 ? '' : 'hidden'}`}>
           <img src={gptLogo} className="gpt-icon1" />
@@ -108,7 +140,9 @@ function App() {
                     ) : (
                       <>
                         <img src={gptLogo} className="gpt-icon" />
-                        ChatGPT
+                        {gptParams.model.includes('ft')
+                          ? 'Aftercare'
+                          : 'ChatGPT'}
                       </>
                     )}
                   </span>
@@ -123,7 +157,11 @@ function App() {
             type="text"
             className="input-field"
             id="userMessage"
-            placeholder="Message ChatGPT"
+            placeholder={
+              gptParams.model.includes('ft')
+                ? 'Ask Aftercare'
+                : 'Message ChatGPT'
+            }
             value={userMessage}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => onKeyEnter(e)}

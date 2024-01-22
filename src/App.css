@@ -1,6 +1,24 @@
+.sidebar {
+  color: #fff;
+  background-color: #393939;
+  width: 350px;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  padding: 1rem;
+  top: 0;
+  left: 0;
+  transition: 0.5s;
+  display: none;
+  transition: 0.5s; 
+}
+
+
 .chat-container {
-  margin: 100px auto;
+  margin: 100px auto 100px auto;
   max-width: 800px;
+  width: 100%;
+
 }
 
 .chat-messages {
@@ -91,4 +109,13 @@
   border-radius: 50%;
   padding: 3px;
   border: 1px solid #d5d5d5;
+}
+
+.close-btn {
+  font-weight: 500;
+  font-size: 1.5rem;    
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: end;
 }
